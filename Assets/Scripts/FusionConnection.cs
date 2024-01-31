@@ -38,22 +38,54 @@ public class FusionConnection : MonoBehaviour, INetworkRunnerCallbacks
         _runner.ProvideInput = true;
     }
 
+    private async void QuickGame()
+    {
+        SceneRef scene = GetGameScene();
+
+        await _runner.StartGame(new StartGameArgs()
+        {
+            GameMode = GameMode.AutoHostOrClient,
+            SessionName = "FusionPong",
+            PlayerCount = 2,
+            Scene = scene,
+            SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
+        });
+    }
+
     private async void StartGame(GameMode mode, string sessionName)
     {
-        SceneRef scene = SceneRef.FromIndex(Mathf.Abs(SceneManager.GetSceneByName("Game").buildIndex));
-        NetworkSceneInfo sceneInfo = new ();
-        if (scene.IsValid)
-        {
-            sceneInfo.AddSceneRef(scene, LoadSceneMode.Additive);
-        }
+        SceneRef scene = GetGameScene();
 
         await _runner.StartGame(new StartGameArgs()
         {
             GameMode = mode,
             SessionName = sessionName,
+            CustomLobbyName = sessionName,
+            PlayerCount = 2,
             Scene = scene,
             SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
         });
+    }
+
+    private SceneRef GetGameScene()
+    {
+        SceneRef scene = SceneRef.FromIndex(Mathf.Abs(SceneManager.GetSceneByName("Game").buildIndex));
+        NetworkSceneInfo sceneInfo = new();
+
+        if (scene.IsValid)
+        {
+            sceneInfo.AddSceneRef(scene, LoadSceneMode.Additive);
+        }
+
+        return scene;
+    }
+
+    public void StartQuickGame()
+    {
+        if (_runner == null)
+            return;
+
+        QuickGame();
     }
 
     public void CreateRoom(TMP_InputField input)

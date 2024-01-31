@@ -1,11 +1,15 @@
+using Fusion;
 using TMPro;
 using UnityEngine;
 
 public class PlayerInformations : MonoBehaviour
 {
-    public string playerName;
-    public Color playerColor;
 
+    //[Networked] public string PlayerName { get => playerName; }
+    //[Networked] public Color PlayerColor { get => playerColor; }
+
+    public string playerName ;
+    public Color playerColor;
 
     public void OnPlayerNameUpdate(TMP_InputField playerNameInput)
     {
