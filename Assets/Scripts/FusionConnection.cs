@@ -6,9 +6,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+public struct NetworkInputData : INetworkInput
+{
+    public float Direction;
+}
+
 public class FusionConnection : MonoBehaviour, INetworkRunnerCallbacks
 {
-    public void OnInput(NetworkRunner runner, NetworkInput input) { }
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason) { }
     public void OnConnectedToServer(NetworkRunner runner) { }
@@ -27,6 +31,8 @@ public class FusionConnection : MonoBehaviour, INetworkRunnerCallbacks
     public void OnReliableDataProgress(NetworkRunner runner, PlayerRef player, ReliableKey key, float progress) { }
 
     private NetworkRunner _runner;
+
+    public PlayerInformations playerInformations;
 
     private void Awake()
     {
@@ -104,7 +110,6 @@ public class FusionConnection : MonoBehaviour, INetworkRunnerCallbacks
         StartGame(GameMode.Client, input.text);
     }
 
-
     [SerializeField] private NetworkPrefabRef _playerPrefab;
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
 
@@ -112,10 +117,8 @@ public class FusionConnection : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (runner.IsServer)
         {
-            // Create a unique position for the player
             Vector3 spawnPosition = new Vector3((player.RawEncoded % runner.Config.Simulation.PlayerCount) * 3, 1, 0);
             NetworkObject networkPlayerObject = runner.Spawn(_playerPrefab, spawnPosition, Quaternion.identity, player);
-            // Keep track of the player avatars for easy access
             _spawnedCharacters.Add(player, networkPlayerObject);
         }
     }
@@ -127,5 +130,26 @@ public class FusionConnection : MonoBehaviour, INetworkRunnerCallbacks
             runner.Despawn(networkObject);
             _spawnedCharacters.Remove(player);
         }
+    }
+
+    public void OnInput(NetworkRunner runner, NetworkInput input)
+    {
+        var data = new NetworkInputData
+        {
+            Direction = 0f
+        };
+
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+            data.Direction = 1f;
+
+        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+            data.Direction = -1f;
+
+        input.Set(data);
+    }
+
+    public (string, Color) GetPlayerInformations()
+    {
+        return (playerInformations.playerName, playerInformations.playerColor);
     }
 }

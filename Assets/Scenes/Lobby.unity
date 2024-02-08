@@ -7170,7 +7170,7 @@ GameObject:
   - component: {fileID: 2009769711}
   - component: {fileID: 2009769712}
   m_Layer: 0
-  m_Name: Network Runner
+  m_Name: NetworkRunner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7188,7 +7188,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2134711068}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2009769712
@@ -7203,6 +7204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d822255f3f074b46abc7ea7df1f0b21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerInformations: {fileID: 2134711067}
   _playerPrefab:
     RawGuidValue: bf7505778d5c4ce49afd2997206d2b19
 --- !u!1 &2035687627
@@ -8152,12 +8154,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2134711066}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2009769711}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -8166,5 +8168,4 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 1988864862}
   - {fileID: 2009769711}
-  - {fileID: 2134711068}
   - {fileID: 1121410886}

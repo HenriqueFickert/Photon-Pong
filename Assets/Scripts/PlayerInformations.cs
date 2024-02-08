@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class PlayerInformations : MonoBehaviour
 {
-
-    //[Networked] public string PlayerName { get => playerName; }
-    //[Networked] public Color PlayerColor { get => playerColor; }
-
     public string playerName ;
     public Color playerColor;
 
